@@ -47,21 +47,30 @@ def rotation_about_z(center: np.ndarray, vertices: np.ndarray, degree: float) ->
     vertices += center
 
 
-def translation(vertices: np.ndarray, step: Union[int, float], axis: int) -> None:
+def translation(center: np.ndarray,
+                vertices: np.ndarray,
+                step: Union[int, float],
+                axis: int) -> None:
     """
     Translate (and mutate) vertices along an axis in the positive direction if step is positive, and vice versa.
+    :param center: center of the object 'vertices' represents. This is mutated to the new translated center.
     :param vertices: n x 3 matrix of vertices in world cartesian coordinate
     :param step: number to translate by
     :param axis: axis along which to translate
     """
+    assert len(center.shape) == 1
+    assert len(center) == 3
     assert len(vertices.shape) == 2
     assert vertices.shape[1] == 3
     assert 0 <= axis <= 2
 
     vertices[:, axis] += step
+    center[axis] += step
 
 
-def uniform_scale(center: np.ndarray, vertices: np.ndarray, scale: Union[int, float]) -> None:
+def uniform_scale(center: np.ndarray,
+                  vertices: np.ndarray,
+                  scale: Union[int, float]) -> None:
     """
     Uniformly scale (and mutate) vertices.
     :param center: center of the object 'vertices' represents
