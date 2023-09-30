@@ -1,5 +1,5 @@
 import sys
-from typing import Tuple
+from typing import Tuple, Union
 
 import pygame
 import numpy as np
@@ -7,8 +7,10 @@ import numpy as np
 from src.change_of_coordinates import cartesian_to_pygame
 
 
-def init_cuboid(center: np.ndarray, half_width: float, half_height: float, half_depth: float) \
-        -> Tuple[np.ndarray, np.ndarray]:
+def init_cuboid(center: np.ndarray,
+                half_width: Union[int, float],
+                half_height: Union[int, float],
+                half_depth: Union[int, float]) -> Tuple[np.ndarray, np.ndarray]:
     """
     Initialize a 3D cuboid.
     :param center: length 3 array of the center of the cuboid
@@ -19,7 +21,6 @@ def init_cuboid(center: np.ndarray, half_width: float, half_height: float, half_
     """
     assert len(center.shape) == 1
     assert len(center) == 3
-    assert center.dtype == np.float64
 
     x, y, z = np.meshgrid((center[0] + half_width, center[0] - half_width),
                           (center[1] + half_height, center[1] - half_height),
@@ -44,7 +45,6 @@ def perspective_projection(camera_location: np.ndarray, vertices: np.ndarray) ->
     assert len(camera_location.shape) == 1
     assert len(vertices.shape) == 2
     assert vertices.shape[1] == 4
-    assert vertices.dtype == np.float64
 
     return vertices @ np.array([[-camera_location[2], 0, 0],
                                 [0, -camera_location[2], 0],
@@ -75,7 +75,6 @@ def draw_wireframe(screen: pygame.Surface, vertices: np.ndarray, faces: np.ndarr
     """
     assert len(vertices.shape) == 2
     assert vertices.shape[1] == 2
-    assert vertices.dtype == np.float64
 
     vertices_to_draw = cartesian_to_pygame(vertices, screen_height)
 
@@ -95,6 +94,11 @@ def start_environment(screen_width: int, screen_height: int, vertices: np.ndarra
     :param faces: f x 4 matrix of vertices of face indices of the object
     :return: None
     """
+    assert len(vertices.shape) == 2
+    assert vertices.shape[1] == 3
+    assert len(faces.shape) == 2
+    assert faces.shape[1] == 4
+
     pygame.init()
 
     screen = pygame.display.set_mode((screen_width, screen_height))
