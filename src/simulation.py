@@ -12,7 +12,7 @@ def init_cuboid(center: np.ndarray,
                 half_depth: Union[int, float]) -> Tuple[np.ndarray, np.ndarray]:
     """
     Initialize a 3D cuboid.
-    :param center: length 3 array of the center of the cuboid
+    :param center: 3D float64 array of the center of the cuboid
     :param half_width: half of the width of the cuboid, i.e. length in x
     :param half_height: half of the height of the cuboid, i.e. length in y
     :param half_depth: half of the depth of the cuboid, i.e. length in z
@@ -20,10 +20,13 @@ def init_cuboid(center: np.ndarray,
     """
     assert len(center.shape) == 1
     assert len(center) == 3
+    assert center.dtype == np.float64
 
     x, y, z = np.meshgrid((center[0] + half_width, center[0] - half_width),
                           (center[1] + half_height, center[1] - half_height),
                           (center[2] + half_depth, center[2] - half_depth), copy=True)
+
+    assert x.dtype == np.float64
 
     return (np.column_stack((x.flatten(), y.flatten(), z.flatten())),
             np.array([[0, 4, 6, 2],
