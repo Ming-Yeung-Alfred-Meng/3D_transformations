@@ -46,12 +46,12 @@ def perspective_projection(camera_location: np.ndarray, vertices: np.ndarray) ->
     """
     assert len(camera_location.shape) == 1
     assert len(vertices.shape) == 2
-    assert vertices.shape[1] == 4
+    assert vertices.shape[1] == 3
 
-    return vertices @ np.array([[-camera_location[2], 0, 0],
-                                [0, -camera_location[2], 0],
-                                [camera_location[0], camera_location[1], 1],
-                                [0, 0, -camera_location[2]]])
+    return coc.homogeneous_to_cartesian(coc.cartesian_to_homogeneous(vertices) @ np.array([[-camera_location[2], 0, 0],
+                                                                                           [0, -camera_location[2], 0],
+                                                                                           [camera_location[0], camera_location[1], 1],
+                                                                                           [0, 0, -camera_location[2]]]))
 
 
 def orthographic_projection(vertices: np.ndarray) -> np.ndarray:
