@@ -78,6 +78,8 @@ def uniform_scale(center: np.ndarray,
     :param scale: scale factor
     :return: None
     """
+    assert 0 < scale
+
     vertices -= center
     vertices *= scale
     vertices += center
