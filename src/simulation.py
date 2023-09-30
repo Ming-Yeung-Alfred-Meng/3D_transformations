@@ -4,8 +4,7 @@ from typing import Tuple, Union
 import pygame
 import numpy as np
 
-from src.change_of_coordinates import cartesian_to_pygame
-
+import src.change_of_coordinates as coc
 
 def init_cuboid(center: np.ndarray,
                 half_width: Union[int, float],
@@ -76,7 +75,7 @@ def draw_wireframe(screen: pygame.Surface, vertices: np.ndarray, faces: np.ndarr
     assert len(vertices.shape) == 2
     assert vertices.shape[1] == 2
 
-    vertices_to_draw = cartesian_to_pygame(vertices, screen_height)
+    vertices_to_draw = coc.cartesian_to_pygame(vertices, screen_height)
 
     for face in faces:
         for i in range(face.shape[0]):
