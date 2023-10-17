@@ -192,10 +192,10 @@ def start_environment(screen_width: Union[int, float],
                 running = False
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
-            control(translation_controls)
+            control(rotation_controls)
 
         else:
-            control(rotation_controls)
+            control(translation_controls)
             control(uniform_scale_controls)
 
         render(screen, vertices, faces, screen_height, projection(0, camera_location))
@@ -208,19 +208,19 @@ def run() -> None:
     center = np.array([300., 300., 300.])
     vertices, faces = init_cuboid(center, 50, 50, 50)
 
-    translation_controls = {pygame.K_LEFT: (t.rotation_about_y, (center, vertices, - np.pi / 80)),
+    translation_controls = {pygame.K_LEFT: (t.translation, (center, vertices, - 5, 0)),
+                            pygame.K_RIGHT: (t.translation, (center, vertices, 5, 0)),
+                            pygame.K_UP: (t.translation, (center, vertices, 5, 1)),
+                            pygame.K_DOWN: (t.translation, (center, vertices, - 5, 1)),
+                            pygame.K_w: (t.translation, (center, vertices, 5, 2)),
+                            pygame.K_s: (t.translation, (center, vertices, - 5, 2))}
+
+    rotation_controls = {pygame.K_LEFT: (t.rotation_about_y, (center, vertices, - np.pi / 80)),
                             pygame.K_RIGHT: (t.rotation_about_y, (center, vertices, np.pi / 80)),
                             pygame.K_UP: (t.rotation_about_x, (center, vertices, - np.pi / 80)),
                             pygame.K_DOWN: (t.rotation_about_x, (center, vertices, np.pi / 80)),
                             pygame.K_a: (t.rotation_about_z, (center, vertices, - np.pi / 80)),
                             pygame.K_d: (t.rotation_about_z, (center, vertices, np.pi / 80))}
-
-    rotation_controls = {pygame.K_LEFT: (t.translation, (center, vertices, - 5, 0)),
-                         pygame.K_RIGHT: (t.translation, (center, vertices, 5, 0)),
-                         pygame.K_UP: (t.translation, (center, vertices, 5, 1)),
-                         pygame.K_DOWN: (t.translation, (center, vertices, - 5, 1)),
-                         pygame.K_w: (t.translation, (center, vertices, 5, 2)),
-                         pygame.K_s: (t.translation, (center, vertices, - 5, 2))}
 
     uniform_scale_controls = {pygame.K_n: (t.uniform_scale, (center, vertices, 0.9)),
                               pygame.K_m: (t.uniform_scale, (center, vertices, 1.1))}
