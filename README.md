@@ -1,1 +1,1 @@
-![A rotating cube](media/rotating_cube.gif)
+![A rotating cube](media/transformation.gif)
